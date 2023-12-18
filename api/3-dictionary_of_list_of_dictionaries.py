@@ -6,15 +6,13 @@ import requests
 
 
 if __name__ == "__main__":
-    API_URL = ""
+    API_URL = "https://jsonplaceholder.typicode.com"
 
-    users = requests.get(f"https://jsonplaceholder.typicode.com/users").json()
+    users = requests.get(f"{API_URL}/users").json()
 
     dict_users_tasks = {}
     for user in users:
-        tasks = requests.get(
-            f"https://jsonplaceholder.typicode.com/users/{user['id']}/todos"
-            ).json()
+        tasks = requests.get(f"{API_URL}/users/{user['id']}/todos").json()
 
         dict_users_tasks[user["id"]] = []
         for task in tasks:
