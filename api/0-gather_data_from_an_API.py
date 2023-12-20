@@ -4,15 +4,15 @@
 from sys import argv
 import requests
 
+API_URL = 'https://jsonplaceholder.typicode.com'
+
 
 if __name__ == '__main__':
     # todo info
-    todos = requests.get(
-        f'https://jsonplaceholder.typicode.com/todos?userId={argv[1]}')
+    todos = requests.get(f'{API_URL}/todos?userId={argv[1]}')
     todos_data = todos.json()
     # user info
-    users = requests.get(
-        f'https://jsonplaceholder.typicode.com/users/{argv[1]}')
+    users = requests.get(f'{API_URL}/users/{argv[1]}')
     users_data = users.json()
 
     completed_tasks = [task for task in todos_data if task['completed']]
