@@ -23,4 +23,4 @@ if __name__ == '__main__':
     }
 
     with open(f'{argv[1]}.json', 'w') as file:
-        json.dump(u_tasks, file)
+        json.dump(data, file)
