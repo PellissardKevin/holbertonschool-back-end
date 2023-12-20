@@ -14,9 +14,7 @@ if __name__ == '__main__':
     user = requests.get(f'{API_URL}/users/{USER_ID}').json()
     todo_list = requests.get(f"{API_URL}/todos?userId={USER_ID}").json()
 
-    csv_filename = f"{USER_ID}.csv"
-
-    with open(csv_filename, mode='w') as csv_file:
+    with open(f"{USER_ID}.csv", mode='w') as csv_file:
         csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
 
         for task in todo_list:
