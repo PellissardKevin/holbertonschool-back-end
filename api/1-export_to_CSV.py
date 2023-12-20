@@ -8,11 +8,16 @@ import csv
 API_URL = 'https://jsonplaceholder.typicode.com'
 
 if __name__ == '__main__':
-    todos = requests.get(f'{API_URL}/users/{argv[1]}/todos',
-                         params={"_expand": "user"})
-    username = todos.json()[0]['user']['username']
-    with open('{}.csv'.format(argv[1]), 'w', newline='') as f:
-        writer = csv.writer(f, quoting=csv.QUOTE_ALL)
-        for todo in todos.json():
-            writer.writerow(
-                [argv[1], username, str(todo['completed']), todo['title']])
+    user = requests.get(f'{API_URL}/users/{argv[1]}').json()
+    todo_list = requests.get(f"{API_URL}/todos?userId={argv[1]}").json()
+
+    with open( f"{argv[1]}.csv", mode='w') as csv_file:
+        csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
+
+        for task in todo_list:
+            csv_writer.writerow([
+                user['id'],
+                user['username'],
+                task['completed'],
+                task['title']
+            ])
