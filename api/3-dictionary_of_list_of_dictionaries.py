@@ -5,29 +5,24 @@ import json
 import requests
 from sys import argv
 
-API_URL = "https://jsonplaceholder.typicode.com"
+API_URL = 'https://jsonplaceholder.typicode.com'
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 
-    users = requests.get(f"{API_URL}/users").json()
+    users = requests.get(f'{API_URL}/users').json()
     todos = requests.get(f"{API_URL}/todos").json()
 
-    dict_users_tasks = {}
-
+    data = {}
     for task in todos:
-
         user_id = task['userId']
-
-        if user_id not in dict_users_tasks:
-            dict_users_tasks[user_id] = []
-
-        dict_users_tasks[user_id].append({
+        if user_id not in data:
+            data[user_id] = []
+        data[user_id].append({
             "username": next(user['username']
                              for user in users
                              if user['id'] == user_id),
             "task": task['title'],
             "completed": task['completed']
         })
-
-    with open(f"{argv[1]}.json", "w") as file:
-        json.dump(dict_users_tasks, file)
+    with open("todo_all_employees.json", 'w') as file:
+        json.dump(data, file)
