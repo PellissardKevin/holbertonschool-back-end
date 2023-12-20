@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """Gather data from API"""
 
-from sys import argv
 import requests
+from sys import argv
 
 API_URL = 'https://jsonplaceholder.typicode.com'
 
@@ -11,6 +11,7 @@ if __name__ == '__main__':
     # todo info
     todos = requests.get(f'{API_URL}/todos?userId={argv[1]}')
     todos_data = todos.json()
+
     # user info
     users = requests.get(f'{API_URL}/users/{argv[1]}')
     users_data = users.json()
