@@ -7,10 +7,6 @@ import sys
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print(f"UsageError: python3 {__file__} employee_id(int)")
-        sys.exit(1)
-
     API_URL = "https://jsonplaceholder.typicode.com"
     EMPLOYEE_ID = sys.argv[1]
 
@@ -20,9 +16,6 @@ if __name__ == "__main__":
     )
     data = response.json()
 
-    if not len(data):
-        print("RequestError:", 404)
-        sys.exit(1)
 
     user_tasks = {EMPLOYEE_ID: []}
     for task in data:
