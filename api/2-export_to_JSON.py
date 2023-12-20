@@ -5,21 +5,22 @@ from sys import argv
 import requests
 import json
 
+API_URL = 'https://jsonplaceholder.typicode.com'
 
 if __name__ == '__main__':
-    response = requests.get(
-        f'https://jsonplaceholder.typicode.com/users/{argv[1]}/todos',
-        params={"_expand": "user"})
-    data = response.json()
+    user = requests.get(f'{API_URL}/users/{argv[1]}').json()
+    todo_list = requests.get(f"{API_URL}/todos?userId={argv[1]}").json()
 
-    u_tasks = {argv[1]: []}
-    for task in data:
-        task_dict = {
-            "task": task['title'],
-            "completed": task['completed'],
-            "username": task['user']['username']
-        }
-        u_tasks[argv[1]].append(task_dict)
+    data = {
+        argv[1]: [
+            {
+                "task": task['title'],
+                "completed": task['completed'],
+                "username": user['username']
+            }
+            for task in todo_list
+        ]
+    }
 
     with open(f'{argv[1]}.json', 'w', newline='') as file:
         json.dump(u_tasks, file)
