@@ -6,11 +6,11 @@ import requests
 
 
 if __name__ == '__main__':
-    c_todo = 0
-    c_complete = 0
+    # todo info
     todos = requests.get(
         f'https://jsonplaceholder.typicode.com/todos?userId={argv[1]}')
     todos_data = todos.json()
+    # user info
     users = requests.get(
         f'https://jsonplaceholder.typicode.com/users/{argv[1]}')
     users_data = users.json()
