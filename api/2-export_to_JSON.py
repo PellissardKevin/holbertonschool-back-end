@@ -5,14 +5,18 @@ from sys import argv
 import requests
 import json
 
+
 API_URL = 'https://jsonplaceholder.typicode.com'
 
 if __name__ == '__main__':
-    user = requests.get(f'{API_URL}/users/{argv[1]}').json()
-    todo_list = requests.get(f"{API_URL}/todos?userId={argv[1]}").json()
+
+    USER_ID = argv[1]
+
+    user = requests.get(f'{API_URL}/users/{USER_ID}').json()
+    todo_list = requests.get(f"{API_URL}/todos?userId={USER_ID}").json()
 
     data = {
-        argv[1]: [
+        USER_ID: [
             {
                 "task": task['title'],
                 "completed": task['completed'],
@@ -21,6 +25,5 @@ if __name__ == '__main__':
             for task in todo_list
         ]
     }
-
-    with open(f'{argv[1]}.json', 'w') as file:
-        json.dump(data, file)
+    with open(f"{USER_ID}.json", 'w') as json_file:
+        json.dump(data, json_file)
