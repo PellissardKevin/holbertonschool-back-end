@@ -8,13 +8,10 @@ from sys import argv
 API_URL = 'https://jsonplaceholder.typicode.com'
 
 if __name__ == '__main__':
+    user = requests.get(f'{API_URL}/users/{argv[1]}').json()
+    todo_list = requests.get(f"{API_URL}/todos?userId={argv[1]}").json()
 
-    USER_ID = argv[1]
-
-    user = requests.get(f'{API_URL}/users/{USER_ID}').json()
-    todo_list = requests.get(f"{API_URL}/todos?userId={USER_ID}").json()
-
-    with open(f"{USER_ID}.csv", mode='w') as csv_file:
+    with open(f"{argv[1]}.csv", mode='w') as csv_file:
         csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
 
         for task in todo_list:
@@ -25,4 +22,4 @@ if __name__ == '__main__':
                 task['title']
             ])
 
-    print(f"Data has been exported to {USER_ID}.csv")
+    print(f"Data has been exported to {argv[1]}.csv")
