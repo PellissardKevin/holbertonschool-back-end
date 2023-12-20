@@ -3,12 +3,12 @@
 information about his/her TODO list progress and export in JSON"""
 import json
 import requests
-import sys
+from sys import argv, exit
 
 
 if __name__ == "__main__":
     API_URL = "https://jsonplaceholder.typicode.com"
-    EMPLOYEE_ID = sys.argv[1]
+    EMPLOYEE_ID = argv[1]
 
     response = requests.get(
         f"{API_URL}/users/{EMPLOYEE_ID}/todos",
@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     if not len(data):
         print("RequestError:", 404)
-        sys.exit(1)
+        exit(1)
 
     user_tasks = {EMPLOYEE_ID: []}
     for task in data:
