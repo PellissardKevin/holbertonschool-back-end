@@ -1,9 +1,8 @@
 #!/usr/bin/python3
-"""Script to use a REST API, returns information about
-all tasks from all employees and export in JSON"""
+"""Script that save in csv infos from a given employee"""
+
 import json
 import requests
-from sys import argv
 
 API_URL = 'https://jsonplaceholder.typicode.com'
 
@@ -12,7 +11,10 @@ if __name__ == '__main__':
     users = requests.get(f'{API_URL}/users').json()
     todos = requests.get(f"{API_URL}/todos").json()
 
+    json_filename = "todo_all_employees.json"
+
     data = {}
+
     for task in todos:
         user_id = task['userId']
         if user_id not in data:
@@ -24,5 +26,5 @@ if __name__ == '__main__':
             "task": task['title'],
             "completed": task['completed']
         })
-    with open("todo_all_employees.json", 'w') as file:
+    with open(json_filename, 'w') as file:
         json.dump(data, file)
