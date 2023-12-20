@@ -1,28 +1,37 @@
 #!/usr/bin/python3
-"""Gather data to json"""
-
-from sys import argv
-import requests
+"""Script to use a REST API for a given employee ID, returns
+information about his/her TODO list progress and export in JSON"""
 import json
+import requests
+import sys
 
-
-API_URL = "https://jsonplaceholder.typicode.com"
 
 if __name__ == "__main__":
-    USER_ID = argv[1]
+    if len(sys.argv) != 2:
+        print(f"UsageError: python3 {__file__} employee_id(int)")
+        sys.exit(1)
 
-    user = requests.get(f"{API_URL}/users/{USER_ID}").json()
-    todo_list = requests.get(f"{API_URL}/todos?userId={USER_ID}").json()
+    API_URL = "https://jsonplaceholder.typicode.com"
+    EMPLOYEE_ID = sys.argv[1]
 
-    data = {
-        USER_ID: [
-            {
-                "task": task["title"],
-                "completed": task["completed"],
-                "username": user["username"],
-            }
-            for task in todo_list
-        ]
-    }
-    with open(f"{USER_ID}.json", "w") as json_file:
-        json.dump(data, json_file)
+    response = requests.get(
+        f"{API_URL}/users/{EMPLOYEE_ID}/todos",
+        params={"_expand": "user"}
+    )
+    data = response.json()
+
+    if not len(data):
+        print("RequestError:", 404)
+        sys.exit(1)
+
+    user_tasks = {EMPLOYEE_ID: []}
+    for task in data:
+        task_dict = {
+            "task": task["title"],
+            "completed": task["completed"],
+            "username": task["user"]["username"]
+        }
+        user_tasks[EMPLOYEE_ID].append(task_dict)
+
+    with open(f"{EMPLOYEE_ID}.json", "w") as file:
+        json.dump(user_tasks, file)
