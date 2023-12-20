@@ -3,6 +3,7 @@
 all tasks from all employees and export in JSON"""
 import json
 import requests
+from sys import argv
 
 API_URL = "https://jsonplaceholder.typicode.com"
 
@@ -28,5 +29,5 @@ if __name__ == "__main__":
             "completed": task['completed']
         })
 
-    with open("todo_all_employees.json", "w") as file:
+    with open(f"{argv[1]}.json", "w") as file:
         json.dump(dict_users_tasks, file)
