@@ -11,7 +11,7 @@ if __name__ == '__main__':
     user = requests.get(f'{API_URL}/users/{argv[1]}').json()
     todo_list = requests.get(f"{API_URL}/todos?userId={argv[1]}").json()
 
-    with open( f"{argv[1]}.csv", mode='w') as csv_file:
+    with open(f"{argv[1]}.csv", mode='w') as csv_file:
         csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
 
         for task in todo_list:
@@ -21,3 +21,5 @@ if __name__ == '__main__':
                 task['completed'],
                 task['title']
             ])
+
+    print(f"Data has been exported to {argv[1]}.csv")
