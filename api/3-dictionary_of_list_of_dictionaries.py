@@ -9,11 +9,10 @@ if __name__ == "__main__":
     API_URL = "https://jsonplaceholder.typicode.com"
 
     users = requests.get(f"{API_URL}/users").json()
+    tasks = requests.get(f"{API_URL}/todos").json()
 
     dict_users_tasks = {}
     for user in users:
-        tasks = requests.get(f"{API_URL}/users/{user['id']}/todos").json()
-
         dict_users_tasks[user["id"]] = []
         for task in tasks:
             if task['userId'] == user['id']:
