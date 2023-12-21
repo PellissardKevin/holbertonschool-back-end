@@ -9,18 +9,19 @@ if __name__ == "__main__":
     API_URL = "https://jsonplaceholder.typicode.com"
 
     users = requests.get(f"{API_URL}/users").json()
-    tasks = requests.get(f"{API_URL}/todos").json()
 
-    dict_users_tasks = {
-        user.get('id'):
-        [
-            {
-                "username": user.get("username"),
-                "task": task.get("title"),
-                "completed": task.get("completed")
-            } for task in tasks if task.get('userId') == user.get('id')
-        ] for user in users
-    }
+    dict_users_tasks = {}
+    for user in users:
+        tasks = requests.get(f"{API_URL}/users/{user['id']}/todos").json()
+
+        dict_users_tasks[user["id"]] = []
+        for task in tasks:
+            task_dict = {
+                "username": user["username"],
+                "task": task["title"],
+                "completed": task["completed"]
+            }
+            dict_users_tasks[user["id"]].append(task_dict)
 
     with open("todo_all_employees.json", "w") as file:
         json.dump(dict_users_tasks, file)
