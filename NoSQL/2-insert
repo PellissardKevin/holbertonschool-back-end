@@ -1,4 +1,0 @@
-// Insert data in db school
-
-db.createCollection("school")
-db.school.insert({"name":"Holberton school"})

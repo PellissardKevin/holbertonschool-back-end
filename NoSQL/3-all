@@ -1,3 +1,0 @@
-// List all documents in collections school
-
-db.school.find()
